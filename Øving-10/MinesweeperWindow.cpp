@@ -140,9 +140,6 @@ void MinesweeperWindow::cb_reset(Address, Address pw) {
 	win.hide();
 }
 
-
-
-
 void MinesweeperWindow::updateGameState(Point xy, MouseButton mb) {
 	cout << "checkGameState() called.\n";
 	
@@ -173,11 +170,11 @@ void MinesweeperWindow::updateGameState(Point xy, MouseButton mb) {
 }
 
 void MinesweeperWindow::displayClosingMessage() {
-	//Don't mind the magic numbers and non-scalable layout
+	//It's messy, I know..
 	constexpr int sep = 20;
 	Point tl{sep, 3*sep};
 	Point br{x_max() - sep, 5*sep};
-	Point txt{ (br.x - tl.x)/2 - 10, tl.y + 20 };
+	Point txt{ (br.x - tl.x)/2 - sep/2, tl.y + sep };
 	static Rectangle bg{ tl, br };
 
 	attach(bg);
@@ -185,6 +182,7 @@ void MinesweeperWindow::displayClosingMessage() {
 	static Text winMsg{ txt, "You won!" };
 	winMsg.set_color(Color::black);
 	winMsg.set_font_size(18);
+
 	static Text loseMsg{ txt, "You lost!" };
 	loseMsg.set_color(Color::black);
 	loseMsg.set_font_size(18);
