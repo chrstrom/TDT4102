@@ -173,6 +173,7 @@ void MinesweeperWindow::updateGameState(Point xy, MouseButton mb) {
 }
 
 void MinesweeperWindow::displayClosingMessage() {
+	//Don't mind the magic numbers and non-scalable layout
 	constexpr int sep = 20;
 	Point tl{sep, 3*sep};
 	Point br{x_max() - sep, 5*sep};
