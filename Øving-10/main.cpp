@@ -11,8 +11,6 @@ int main() {
 	while (true) {
 		Point startPoint{ 200, 300 };
 		MinesweeperWindow mw{ startPoint, width, height, mines, "Minesweeper" };
-
-		//fungerer gui_main() som en main game loop? Hvis ja, er det mulig å overstyre hva som skjer i den?
 		gui_main();
 		mw.displayClosingMessage();
 
