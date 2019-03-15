@@ -1,5 +1,6 @@
 #pragma once
-
+//Barebones version of Dummy was given in the assignment.
+//A copy constructor and assignment operator was added.
 
 class Dummy {
 public:
