@@ -1,8 +1,5 @@
 #include "LinkedList.h"
 #include "Oppg1.h"
-#include <iostream>
-#include <vector>
-#include <string>
 
 int main() {
 
@@ -21,8 +18,6 @@ int main() {
 	//c)
 	replace(vec, "Ipsum", "Latin");
 	printVectorWithIterators(vec);
-
-
 
 	std::cin.get();		//Stop window from closing right away
 	return 0;
