@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-std::vector<std::string> printVectorWithIterators() {
+void printVectorWithIterators() {
 	std::vector<std::string> vec;
 	std::vector<std::string>::const_iterator pos;
 
