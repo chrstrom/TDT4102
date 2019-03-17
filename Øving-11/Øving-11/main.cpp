@@ -13,11 +13,13 @@ int main() {
 	vec.push_back("Consectetur");
 
 	//a) og b)
-	printVectorWithIterators(vec);
+	std::cout << "1a), 1b)\n";
+	printVectorUsingIterators(vec);
 
 	//c)
-	replace(vec, "Ipsum", "Latin");
-	printVectorWithIterators(vec);
+	std::cout << "\n\n1c) \n";
+	replaceVector(vec, "Lorem", "Latin");
+	printVectorUsingIterators(vec);
 
 	std::cin.get();		//Stop window from closing right away
 	return 0;

@@ -2,7 +2,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <set>
 
-void printVectorWithIterators(const std::vector<std::string>& vec);
+void printVectorUsingIterators(const std::vector<std::string>& vec);
 
-void replace(std::vector<std::string>& vec, std::string old, std::string replacement);
+void replaceVector(std::vector<std::string>& vec, std::string old, std::string replacement);
