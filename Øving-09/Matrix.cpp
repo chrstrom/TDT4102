@@ -41,7 +41,6 @@ Matrix::~Matrix() {
 		delete[] matrix[i];
 	}
 	delete[] matrix;
-	//std::cout << "Deconstructor called...\n";
 }
 
 //Overloads
