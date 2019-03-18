@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
 #include <iostream>
-/*Lag en klasse Person med medlemsvariabler for fornavn og etternavn. 
-Inkluder alle konstruktører, medlemsfunksjoner og overlagrede operatorer 
-du mener er nyttige, inkludert en måte å skrive ut Person-objekter til skjermen.*/
 
 class Person {
 public:
