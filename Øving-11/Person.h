@@ -2,7 +2,9 @@
 #include <string>
 #include <iostream>
 
+//Oppg 2
 class Person {
+
 public:
 	friend std::ostream& operator<<(std::ostream& os, const Person& p);
 	Person() : firstname{ "" }, lastname{} {};
