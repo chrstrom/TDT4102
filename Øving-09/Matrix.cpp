@@ -69,7 +69,7 @@ std::ostream& operator<< (std::ostream& os, Matrix& M) {
 	return os;
 }
 
-Matrix& Matrix::operator+=(const Matrix& rhs) {							//this-> er strengt tatt unødvendig, men greit for å ikke gå i surr med variabelnavnene
+Matrix& Matrix::operator+=(const Matrix& rhs) {							//this-> er strengt tatt unÃ¸dvendig, men greit for Ã¥ ikke gÃ¥ i surr med variabelnavnene
 	if (this->nRows == rhs.nRows && this->mCol == rhs.mCol) {
 		for (int i = 0; i < this->nRows; i++) {
 			for (int j = 0; j < this->mCol; j++) {
@@ -100,12 +100,5 @@ Matrix& Matrix::operator+(const Matrix& rhs) {
 }
 
 bool Matrix::isValid() {
-	if (matrix) {						//"nullptr" evalueres til false, alt annet er true
-		valid = false;
-		return valid;
-	}
-	else {
-		valid = true;
-		return valid;
-	}
+	return(matrix ? true : false);
 };
