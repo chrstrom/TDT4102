@@ -1,5 +1,5 @@
 # Assignments-TDT4102
-A dump of all my assignments for the C++ introduction course "TDT4102" at NTNU. 
+Completed assignments for the C++ introduction course TDT4102 at NTNU. 
 
 For starters:
 1) Because this is all programmed during the first months of learning C++, I'm sure there are better ways to solve many of
