@@ -100,5 +100,6 @@ Matrix& Matrix::operator+(const Matrix& rhs) {
 }
 
 bool Matrix::isValid() {
-	return(matrix ? true : false);
+	valid = matrix ? true : false;
+	return valid;
 };
