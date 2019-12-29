@@ -75,3 +75,28 @@ void checkGuess(string code, string guess, int& numOfCorrectPositions, int& numO
 		guessFlags[j] = 0;
 	}
 }
+
+// A better alternative to checkGuess() is presented below
+// Note that you will have to subtract correctColorsAndPos from correctColor to prevent double-counting
+
+int checkCharactersAndPosition(string code, string guess) {
+    int count = 0;
+    for(int i = 0; i < code.length(); i++) {
+        if(guess[i] == code[i]) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int checkCharacters(string code, string guess) {
+    int count = 0;
+    for(const char guessChar : guess) {  
+        string::iterator iter = find(code, guessChar);   // Iterate through the code, try to find the currect character of guess     
+        if(iter != code.end()) {                         // if find() returns code.end(), it did not find the guess char in the code
+            count++;
+            code.erase(iter);                            // Remove the character that we counted from the code, to prevent double-counting
+        }
+    }
+    return count;
+}
