@@ -1,9 +1,3 @@
-# Assignments-TDT4102
-Øvinger for TDT4102, V2019. V2020 kommer...
-
-
-1) Det finnes garantert andre, bedre løsninger for mange av oppgavene. Oppgavene V2020 blir forhåpentligvis løst på en bedre måte.
- 
-2) Mange av filene vil ha både norske og engelske kommentarer, og noen av funksjonene vil avvike fra øvingstekstene. Dette er gjort for å tilpasse programmet til kravene som utvikles gjennom øvingsteksten
-
-
+Assignments for a ground-up course in modern C++. Both exercises from the year 2019 and 2020 are uploaded,
+and gives a fair bit of insight in how I personally developed as a C++ programmer, though I'm certain
+that there are many ways to improve upon my lastest work.
