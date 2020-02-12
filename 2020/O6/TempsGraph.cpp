@@ -5,9 +5,8 @@ constexpr int STEP = 80;
 
 void drawAxis(Simple_window& win) {
 	//x axis
-	const int X_Len = win.x_max() - 7.5 * STEP;
+	const int X_Len = win.x_max() - 2.5 * STEP;
     const int Y_Len = win.y_max() - 2.0 * STEP;
-
 	constexpr int X_Ticks = 12;
     constexpr int Y_Ticks = 6;
 
@@ -27,22 +26,34 @@ void drawAxis(Simple_window& win) {
     win.attach(yAxis);
 }
 
+void addTextXAxis(Simple_window& win) {
+	constexpr int stepText = 91;
+	constexpr int X_Off = 2 * STEP - 20;
+	const int Y_Off = win.y_max() / 2 + 15;
+	const vector<string> months{"Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"};
+
+    static vector<Text*> X_Text;
+	for (int i = 0; i < months.size(); i++) {
+		X_Text.push_back(new Text{{X_Off + i*stepText, Y_Off}, months[i]});
+		X_Text.back()->set_color(Color::black);
+		X_Text.back()->set_font(Font::helvetica);
+		win.attach(*X_Text.back());
+	}
+}
+
+
 void addTextYAxis(Simple_window& win) {
-    // Y labels
+    // Labels
 	constexpr int Y_Off = 2.5 * STEP;
 	constexpr int stepText = 130;
 	vector<string> Y_Labels{"20", "10", "0", "-10", "-20"};
 	
-    static Vector_ref<Text> Y_Text;
+    static vector<Text*> Y_Text;
 	for (int i = 0; i < Y_Labels.size(); i++) {
 		Y_Text.push_back(new Text{{STEP/2, Y_Off + stepText*i}, Y_Labels[i]});
-	}
-    // Because of the way Graph_lib functions, we need to split the "adding text"-operation into two for-loops
-    // otherwise we segfault as a result of something messing up with a pointer to a Text object.
-	for (Text* t : Y_Text) {
-		t->set_color(Color::black);
-		t->set_font(Font::helvetica);
-		win.attach(*t);
+		Y_Text.back()->set_color(Color::black);
+		Y_Text.back()->set_font(Font::helvetica);
+		win.attach(*Y_Text.back());
 	}
     
     // Legend
@@ -57,37 +68,15 @@ void addTextYAxis(Simple_window& win) {
 
 	max.set_font(Font::helvetica_bold);
     min.set_font(Font::helvetica_bold);
-
+     
 	win.attach(max);
 	win.attach(min);
 }
-void addTextXAxis(Simple_window& win) {
-	constexpr int stepText = 91;
-	constexpr int X_Off = 2 * STEP - 20;
-	const int Y_Off = win.y_max() / 2 + 15;
-	const vector<string> months{"Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"};
 
-    static Vector_ref<Text> Y_Text;
-	for (int i = 0; i < months.size(); i++) {
-		Y_Text.push_back(new Text{{X_Off + i*stepText, Y_Off}, months[i]});
-	}
-
-	for (Text* t : Y_Text){
-		t->set_color(Color::black);
-		t->set_font(Font::helvetica);
-		win.attach(*t);
-	}
-}
-
-
-void drawTempGraph(const vector<Temps>& temperatures) {
-    constexpr int winH = 900;
-    constexpr int winW = 1300;
-    Simple_window win{{100, 40}, winW, winH, "Temperatures"};
-
+void drawTempsOpls(Simple_window& win, const vector<Temps>& temperatures) {
 	constexpr int X_Scale = 3;
 	constexpr int Y_Scale = 10;
-	Point origin{STEP, winH/2};
+	Point origin{STEP, win.y_max()/2};
 
 	static Open_polyline OplMax;
     static Open_polyline OplMin;
@@ -110,10 +99,17 @@ void drawTempGraph(const vector<Temps>& temperatures) {
 
     win.attach(OplMax);
 	win.attach(OplMin);
+}
+
+void drawTempGraph(const vector<Temps>& temperatures) {
+    constexpr int winH = 900;
+    constexpr int winW = 1300;
+    Simple_window win{{100, 40}, winW, winH, "Temperatures"};
 
     drawAxis(win);
     addTextXAxis(win);
     addTextYAxis(win);
+	drawTempsOpls(win, temperatures);
 
     win.wait_for_button();
 }
