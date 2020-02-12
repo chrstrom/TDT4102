@@ -1,10 +1,10 @@
 #include "TempsGraph.h"
 
-// Generic step value that is used throughout the different scaling operations
 constexpr int STEP = 80;
+const Font labelFont = Font::helvetica;
+const Font labelFontB = Font::helvetica_bold;
 
 void drawAxis(Simple_window& win) {
-	//x axis
 	const int X_Len = win.x_max() - 2.5 * STEP;
     const int Y_Len = win.y_max() - 2.0 * STEP;
 	constexpr int X_Ticks = 12;
@@ -36,7 +36,7 @@ void addTextXAxis(Simple_window& win) {
 	for (int i = 0; i < months.size(); i++) {
 		X_Text.push_back(new Text{{X_Off + i*stepText, Y_Off}, months[i]});
 		X_Text.back()->set_color(Color::black);
-		X_Text.back()->set_font(Font::helvetica);
+		X_Text.back()->set_font(labelFont);
 		win.attach(*X_Text.back());
 	}
 }
@@ -52,7 +52,7 @@ void addTextYAxis(Simple_window& win) {
 	for (int i = 0; i < Y_Labels.size(); i++) {
 		Y_Text.push_back(new Text{{STEP/2, Y_Off + stepText*i}, Y_Labels[i]});
 		Y_Text.back()->set_color(Color::black);
-		Y_Text.back()->set_font(Font::helvetica);
+		Y_Text.back()->set_font(labelFont);
 		win.attach(*Y_Text.back());
 	}
     
@@ -66,8 +66,8 @@ void addTextYAxis(Simple_window& win) {
 	max.set_color(Color::red);
     min.set_color(Color::blue);
 
-	max.set_font(Font::helvetica_bold);
-    min.set_font(Font::helvetica_bold);
+	max.set_font(labelFontB);
+    min.set_font(labelFontB);
      
 	win.attach(max);
 	win.attach(min);
