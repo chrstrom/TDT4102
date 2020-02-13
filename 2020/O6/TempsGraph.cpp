@@ -74,18 +74,18 @@ void addTextYAxis(Simple_window& win) {
 }
 
 void drawTempsOpls(Simple_window& win, const vector<Temps>& temperatures) {
-	constexpr int X_Scale = 3;
-	constexpr int Y_Scale = 10;
+	constexpr int X_Step = 3;
+	constexpr int Y_Step = 10;
 	Point origin{STEP, win.y_max()/2};
 
 	static Open_polyline OplMax;
     static Open_polyline OplMin;
 	for (int i = 0; i < temperatures.size(); i++) {
-		int X_Max = origin.x + X_Scale * i;
-        int X_Min = origin.x + X_Scale * i;
+		int X_Max = origin.x + X_Step * i;
+        int X_Min = origin.x + X_Step * i;
 
-		int Y_Max = origin.y - Y_Scale * temperatures[i].max;
-        int Y_Min = origin.y - Y_Scale * temperatures[i].min;
+		int Y_Max = origin.y - Y_Step * temperatures[i].max;
+        int Y_Min = origin.y - Y_Step * temperatures[i].min;
 
 		OplMax.add(Point{ X_Max, Y_Max });
         OplMin.add(Point{ X_Min, Y_Min });

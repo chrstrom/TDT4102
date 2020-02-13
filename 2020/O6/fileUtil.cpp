@@ -29,6 +29,7 @@ void addLineNum(string filename) {
 	}
 
 	int ln = 1;
+
 	for(string line; getline(inFile, line); ln++)
 		outFile << ln << " " << line << '\n';
 }
