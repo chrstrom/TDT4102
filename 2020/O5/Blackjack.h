@@ -23,6 +23,5 @@ private:
 
     void printTable();  
     void printResults();
-
    
 };

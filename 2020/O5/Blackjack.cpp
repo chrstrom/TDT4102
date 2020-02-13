@@ -67,8 +67,8 @@ void Blackjack::init() {
 }
 
 string Blackjack::drawCardPromt() {
-    string s = "x";
-
+        string s = "x";
+    
     while(1) {
         cout << "\nDraw card? y/n: ";
 
