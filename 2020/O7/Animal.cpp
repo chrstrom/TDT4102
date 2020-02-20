@@ -12,7 +12,8 @@ const string Dog::toString() {
 void testAnimal() {
     Vector_ref<Animal> animals;
 
-    animals.push_back(new Animal{"AN1", 20});
+    //animals.push_back(new Animal{"AN1", 20}); // Does not work anymore as we made toString pure virtual 
+
     animals.push_back(new Cat{"CT1", 7});
     animals.push_back(new Dog{"DG1", 4});
 
