@@ -6,6 +6,7 @@ Blackjack::Blackjack(int playerAmt) : dealer{Player{PlayerType::dealer, to_strin
     }
 
     deck.shuffle();
+    
 }
 
 void Blackjack::play() {
