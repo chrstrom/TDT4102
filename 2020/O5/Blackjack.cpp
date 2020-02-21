@@ -18,6 +18,7 @@ void Blackjack::play() {
         while(!turnEnd) {
             player.printHand();
             
+            //TODO: Change to separate function
             if(player.sumHand() == HAND_SUM_MAX && player.hand.size() == 2) {
                 cout << "BLACKJACK!\n";
                 turnEnd = true;
@@ -68,16 +69,15 @@ void Blackjack::init() {
 }
 
 string Blackjack::drawCardPromt() {
-        string s = "x";
+    string s = "x";
     
     while(1) {
         cout << "\nDraw card? y/n: ";
-
         cin >> s;
 
         if(s == "y" || s == "n") {
             break;
-        }
+        }   
         else {
             cout << "\nChoice must be y/n !!\n";
         }

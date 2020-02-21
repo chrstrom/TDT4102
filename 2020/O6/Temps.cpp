@@ -13,6 +13,7 @@ vector<Temps> readTempsFromFile(string filename) {
 	}
 
 	vector<Temps> temps;
+
 	for(Temps t; inFile >> t;) {
 		temps.push_back(t);
 	}	
