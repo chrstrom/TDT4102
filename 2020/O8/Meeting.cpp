@@ -50,15 +50,17 @@ vector<string> Meeting::getParticipantList() const{
     return names;
 }
 
-// Overlast operator<< for Meeting.
-// Denne operatoren skal IKKJE vere ein friend av Meeting. Du står fritt til å velje for-
-// mat sjølv, men du skal skrive ut subject, location, startTime, endTime, og namnet på
-// møteleiaren. I tillegg skal han skrive ut ei liste med namna på alle deltakaran
-
 ostream& operator<< (ostream& os, Meeting& m) {
-    return os << "Subject: "   <<   m.getSubject()                   << '\n'
-              << "Location: "  <<   mapCampusString[m.getLocation()] << '\n'
-              << "Starts at: " <<   m.getStartTime()                 << '\n'
-              << "Ends at: "   <<   m.getEndTime()                   << '\n'
-              << "Leader: "    <<   m.getLeader()->getName()         << '\n';
+     os << "Subject: "   <<   m.getSubject()                   << '\n'
+        << "Location: "  <<   mapCampusString[m.getLocation()] << '\n'
+        << "Starts at: " <<   m.getStartTime()                 << '\n'
+        << "Ends at: "   <<   m.getEndTime()                   << '\n'
+        << "Leader: "    <<   m.getLeader()->getName()         << '\n';
+
+    os  << "Participants: " << '\n';
+    for(const auto& participant : m.getParticipantList()) {
+        os << participant << '\n';
+    }
+
+    return os;
 }

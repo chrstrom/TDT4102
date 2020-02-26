@@ -4,7 +4,7 @@
 
 enum class Campus{Trondheim, Aalesund, Gjovik};
 
-map<Campus, string> mapCampusString {
+static map<Campus, string> mapCampusString {
     {Campus::Trondheim, "Trondheim"},
     {Campus::Aalesund, "Ålesund"},
     {Campus::Gjovik, "Gjøvik"}
@@ -38,3 +38,5 @@ private:
 
     static set<const Meeting*> meetings;
 };
+
+ostream& operator<< (ostream& os, Meeting& m);
