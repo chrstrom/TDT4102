@@ -8,7 +8,7 @@ using namespace Graph_lib;
 class Animal {
 public:
     Animal(string name, int age) : name{name}, age{age} {}
-    const virtual string toString() = 0;
+    const virtual string toString() const  = 0;
 
 protected:
     string name;
@@ -20,14 +20,14 @@ class Cat : public Animal {
 public:
     Cat(string name, int age) : Animal{name, age} {};
 
-    const string toString() override;
+    const string toString() const override;
 };
 
 class Dog : public Animal {
 public:
     Dog(string name, int age) : Animal{name, age} {};
 
-    const string toString() override;
+    const string toString() const override;
 };
 
 

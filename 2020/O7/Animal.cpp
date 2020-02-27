@@ -1,10 +1,10 @@
 #include "Animal.h"
 
-const string Cat::toString() {
+const string Cat::toString() const {
     return "Cat: " + name + " " + to_string(age);
 }
 
-const string Dog::toString() {
+const string Dog::toString() const {
     return "Dog: " + name + " " + to_string(age);
 }
 
