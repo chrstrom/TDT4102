@@ -2,12 +2,26 @@
 
 set<const Meeting*> Meeting::meetings;
 
+ostream& operator<< (ostream& os, Meeting& m) {
+     os << "Subject: "   <<   m.getSubject()                   << '\n'
+        << "Location: "  <<   mapCampusString[m.getLocation()] << '\n'
+        << "Starts at: " <<   m.getStartTime()                 << '\n'
+        << "Ends at: "   <<   m.getEndTime()                   << '\n'
+        << "Leader: "    <<   m.getLeader()->getName()         << '\n';
+
+    os  << "Participants: " << '\n';
+    for(const auto& participant : m.getParticipantList()) {
+        os << participant << '\n';
+    }
+
+    return os;
+}
+
 Meeting::Meeting(int day, int startTime, int endTime, Campus location, string subject, const Person* p_leader)
                 : day{day}, startTime{startTime}, endTime{endTime}, location{location}, subject{subject}, p_leader{p_leader}
 {
-    addParticipant(p_leader);
     meetings.insert(this);
-    
+    addParticipant(p_leader);
 }
 
 Meeting::~Meeting() {
@@ -49,18 +63,24 @@ vector<string> Meeting::getParticipantList() const{
     }
     return names;
 }
+// Skriv funksjonen findPotentialCoDriving.
+// Dette skal vere ein medlemsfunksjon i Meeting. Funksjonen skal ikkje ta inn noko, og skal
+// returnere ei liste med Person-peikarar til personar som har ledige seter i bilen til andre
+// møte på same stad, på same dag og med både start-tid og slutt-tid som er mindre eller lik
+// ein time i skilnad.
+// Hint: Funksjonen vil ha følgjande
 
-ostream& operator<< (ostream& os, Meeting& m) {
-     os << "Subject: "   <<   m.getSubject()                   << '\n'
-        << "Location: "  <<   mapCampusString[m.getLocation()] << '\n'
-        << "Starts at: " <<   m.getStartTime()                 << '\n'
-        << "Ends at: "   <<   m.getEndTime()                   << '\n'
-        << "Leader: "    <<   m.getLeader()->getName()         << '\n';
+vector<const Person*> Meeting::findPotentialCoDriving() {
 
-    os  << "Participants: " << '\n';
-    for(const auto& participant : m.getParticipantList()) {
-        os << participant << '\n';
+    vector<const Person*> coDrivers;
+
+    for(const auto& m : meetings) {
+        if(m != this && m->getLeader()->hasAvailableSeats() &&
+            m->location == this->location && m->day == this->day) &&
+            (abs(m->startTime - this->startTime) <= 1) && (abs(m->endTime - this->endTime)) )
+        {
+            coDrivers.push_back(m->getLeader());
+        }
     }
-
-    return os;
+    return coDrivers;
 }

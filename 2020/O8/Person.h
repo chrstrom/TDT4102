@@ -4,7 +4,8 @@
 
 class Car {
 public:
-    bool hasFreeSeat() const; 
+    Car(int seats) : freeSeats{seats} {};
+    bool hasFreeSeat(); 
     void reserveFreeSeat();
     
 private:
@@ -29,4 +30,3 @@ private:
     string email;
     Car* p_car;
 };
-
