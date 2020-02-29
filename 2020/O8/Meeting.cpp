@@ -73,12 +73,15 @@ vector<const Person*> Meeting::findPotentialCoDriving() const{
     constexpr int timeDiff = 1;
     vector<const Person*> cd;
 
+    // Valid meetings are meetings at the same location, same day, and start/end time +/- 1 hour
     for(const auto& m : meetings) {
         if( m != this &&
-            m->location == location && m->day == day  &&
+            m->day == day  &&
+            m->location == location &&
             abs(m->startTime - startTime) <= timeDiff &&
             abs(m->endTime - endTime)     <= timeDiff)
         {   
+    
             for(const auto& p : participants) {
                 if(p->hasAvailableSeats() && find(cd.begin(), cd.end(), p) == cd.end()) {
                     cd.push_back(p);

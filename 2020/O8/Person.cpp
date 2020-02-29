@@ -12,8 +12,10 @@ void Car::reserveFreeSeat() {
 Person::Person(string name, string email, Car* p_car) : name{name}, email{email}, p_car{p_car}{};
 
 ostream& operator<<(ostream& os, const Person& p) {
-    return os << p.getName() << " " << p.getEmail() << (p.p_car ? "Car " : "No car ")
-              << (p.hasAvailableSeats() ? " w/ seats" : "w/o seats") << '\n';
+    return os << p.getName()  << ", "
+              << p.getEmail() << ", "
+              << (p.p_car ? "Has car " : "No car ")
+              << (p.hasAvailableSeats() ? "with seats" : "with no seats") << '\n';
 }
 
 string Person::getName() const {
