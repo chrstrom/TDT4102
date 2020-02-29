@@ -5,22 +5,31 @@
 ostream& operator<<(ostream& os,  Meeting& m);
 
 void testMeetings() {
+	Person p1{"P1", "P1@", new Car{5}};
+	Person p2{"P2", "P2@"};
+	Person p3{"P3", "P3@", new Car{3}};
+	Person p4{"P4", "P4@", new Car{0}};
+	Person p5{"P5", "P5@"};
 
-	vector<Meeting> mv;
-	for(int i = 0; i < 10; i++) {
-		Meeting m{12, 1, 4, Campus::Trondheim, "Meeting 1 test.", new Person{"PersonLeader", "Test@Person.com", new Car{4}}};
-		for(int i = 0; i < 5; i++) {
-			m.addParticipant(new Person{"PersonParticipant " + to_string(i + 1), "@" + to_string(i + 1)});
-		}
-		mv.push_back(m);
+	Meeting m1(1, 8, 10, Campus::Trondheim, "M1", &p1);
+	m1.addParticipant(&p2);
+
+	Meeting m2(1, 9, 10, Campus::Trondheim, "M2", &p2);
+	m2.addParticipant(&p3);
+	m2.addParticipant(&p5);
+
+	Meeting m3(1, 8, 11, Campus::Trondheim, "M3", &p4);
+	m3.addParticipant(&p1);
+	m3.addParticipant(&p3);
+	m3.addParticipant(&p5);
+
+	cout << "All meetings: \n";
+	cout << m1  << '\n' << m2 << '\n' << m3 << '\n';
+
+	cout << "Potential co-driving for m3:\n";
+	for(const Person* p_person : m3.findPotentialCoDriving()) {
+		cout << p_person->getName() << '\n';
 	}
-	
-	vector<const Person*> fpcd = mv[0].findPotentialCoDriving();
-
-	for(const auto& el : fpcd) {
-		cout << el << '\n';
-	}
-
 }
 
 

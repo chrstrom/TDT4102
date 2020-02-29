@@ -18,7 +18,12 @@ ostream& operator<< (ostream& os, Meeting& m) {
 }
 
 Meeting::Meeting(int day, int startTime, int endTime, Campus location, string subject, const Person* p_leader)
-                : day{day}, startTime{startTime}, endTime{endTime}, location{location}, subject{subject}, p_leader{p_leader}
+                : day{day},
+                  startTime{startTime},
+                  endTime{endTime}, 
+                  location{location}, 
+                  subject{subject}, 
+                  p_leader{p_leader}
 {
     meetings.insert(this);
     addParticipant(p_leader);
@@ -63,24 +68,23 @@ vector<string> Meeting::getParticipantList() const{
     }
     return names;
 }
-// Skriv funksjonen findPotentialCoDriving.
-// Dette skal vere ein medlemsfunksjon i Meeting. Funksjonen skal ikkje ta inn noko, og skal
-// returnere ei liste med Person-peikarar til personar som har ledige seter i bilen til andre
-// møte på same stad, på same dag og med både start-tid og slutt-tid som er mindre eller lik
-// ein time i skilnad.
-// Hint: Funksjonen vil ha følgjande
 
-vector<const Person*> Meeting::findPotentialCoDriving() {
-
-    vector<const Person*> coDrivers;
+vector<const Person*> Meeting::findPotentialCoDriving() const{
+    constexpr int timeDiff = 1;
+    vector<const Person*> cd;
 
     for(const auto& m : meetings) {
-        if(m != this && m->getLeader()->hasAvailableSeats() &&
-            m->location == this->location && m->day == this->day) &&
-            (abs(m->startTime - this->startTime) <= 1) && (abs(m->endTime - this->endTime)) )
-        {
-            coDrivers.push_back(m->getLeader());
+        if( m != this &&
+            m->location == location && m->day == day  &&
+            abs(m->startTime - startTime) <= timeDiff &&
+            abs(m->endTime - endTime)     <= timeDiff)
+        {   
+            for(const auto& p : participants) {
+                if(p->hasAvailableSeats() && find(cd.begin(), cd.end(), p) == cd.end()) {
+                    cd.push_back(p);
+                }
+            }  
         }
     }
-    return coDrivers;
+    return cd;
 }

@@ -24,7 +24,7 @@ public:
     vector<string> getParticipantList() const;
 
     void addParticipant(const Person* p_person);
-    vector<const Person*> findPotentialCoDriving();
+    vector<const Person*> findPotentialCoDriving() const;
     
     ~Meeting();
 private:
