@@ -1,4 +1,6 @@
 #include "std_lib_facilities.h"
+
+#include "MeetingWindow.h"
 #include "Meeting.h"
 #include "Person.h"
 
@@ -35,7 +37,8 @@ void testMeetings() {
 
 int main() {
 
-	testMeetings();
+	//testMeetings();
 
-	return 0;
+	MeetingWindow mwin{{10, 10}, 900, 600, "MeetingWindow"};
+	return gui_main();
 }
