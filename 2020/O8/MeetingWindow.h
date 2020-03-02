@@ -7,6 +7,8 @@
 
 using namespace Graph_lib;
 
+enum class WidgetType{Person, Meeting};
+
 struct MeetingWindow : Graph_lib::Window {
 	static constexpr int btnW = 100; 
 	static constexpr int btnH = 20;
@@ -53,18 +55,13 @@ private:
 	Menu layoutMenu;
 
 	void addMeeting();
-	void displayMeetings();
-
 	void addPerson();
-	void displayPersons();
 
+	void attachWidget(Widget& w, WidgetType type);
+	void displayWidget(WidgetType type);
 	void hideWidgets(vector<Widget*>& widgets);
 
-	void attachMeetingWidget(Widget& mw);
-	void attachPersonWidget(Widget& pw);
-	void clearWidgetInput(vector<Widget*>& widgets);
-	void updateMeetingList();
-	void updatePersonList();
+	void updateList(WidgetType type);
 
 	void quit();
 	

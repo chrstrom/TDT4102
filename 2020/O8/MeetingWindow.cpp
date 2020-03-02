@@ -29,37 +29,32 @@ MeetingWindow::MeetingWindow(Point xy, int w, int h, const string& title)
 	attach(headerText);
 
 	// New meeting
-	attachMeetingWidget(inBoxDay);
-	attachMeetingWidget(inBoxStart);
-	attachMeetingWidget(inBoxEnd);
-	attachMeetingWidget(choiceLocation);
-	attachMeetingWidget(inBoxSubj);
-	attachMeetingWidget(choiceLeader);
-	attachMeetingWidget(btnNewMeeting);
+	attachWidget(inBoxDay, 		 WidgetType::Meeting);
+	attachWidget(inBoxStart, 	 WidgetType::Meeting);
+	attachWidget(inBoxEnd, 		 WidgetType::Meeting);
+	attachWidget(choiceLocation, WidgetType::Meeting);
+	attachWidget(inBoxSubj, 	 WidgetType::Meeting);
+	attachWidget(choiceLeader, 	 WidgetType::Meeting);
+	attachWidget(btnNewMeeting,	 WidgetType::Meeting);
 
-	for (auto c : mapCampusString)
-		choiceLocation.add(c.second);
+	for (const auto& campus : mapCampusString)
+		choiceLocation.add(campus.second);
 
-	// Meeting list
-	attachMeetingWidget(listMeeting);
+	attachWidget(listMeeting, WidgetType::Meeting);
 
-	// New person
-	attachPersonWidget(inBoxName);
-	attachPersonWidget(inBoxEmail);
-	attachPersonWidget(inBoxCar);
-	attachPersonWidget(btnNewPerson);
+	attachWidget(inBoxName, 	WidgetType::Person);
+	attachWidget(inBoxEmail, 	WidgetType::Person);
+	attachWidget(inBoxCar, 		WidgetType::Person);
+	attachWidget(btnNewPerson, 	WidgetType::Person);
+	attachWidget(listPerson,	WidgetType::Person);
 
-	// Person list
-	attachPersonWidget(listPerson);
-
-	// Menu
 	layoutMenu.attach(new Button{ Point{0, 0}, 0, 0, "Meetings", cb_meetings });
 	layoutMenu.attach(new Button{ Point{0, 0}, 0, 0, "Persons", cb_persons });
 	attach(layoutMenu);
 
-	// Initial window
+
     displayMeetings();
-	// headerText.set_label("Meetings");
+
 	headerText.set_font_size(headerFontSize);
 }
 
@@ -72,13 +67,18 @@ MeetingWindow::~MeetingWindow() {
 }
 
 void MeetingWindow::addMeeting() {
+	constexpr int hrMax = 23;
+	constexpr int hrMin = 0;
+	constexpr int dayMax = 31; 
+	constexpr int dayMin = 1;
+
 	int day = inBoxDay.get_int();
 	int start = inBoxStart.get_int();
 	int end = inBoxEnd.get_int();
 	
 	Campus campus = static_cast<Campus>(choiceLocation.value());
 	string subject = inBoxSubj.get_string();
-	int leaderId = choiceLeader.value();
+	int leaderID = choiceLeader.value();
 
 	inBoxDay.clear_value();
 	inBoxStart.clear_value();
@@ -87,11 +87,11 @@ void MeetingWindow::addMeeting() {
 	choiceLeader.clear_value();
 
 	string error = "";
-	if(day < 1 || day > 31) {
+	if(day < dayMin || day > dayMax) {
 		error += "Day out of range!\n";
 	}
 
-	if(start < 0 || start > 23) {
+	if(start < hrMin || start > hrMax) {
 		error += "Start out of range!\n";
 	}
 
@@ -103,17 +103,17 @@ void MeetingWindow::addMeeting() {
 		error += "No subject added!\n";
 	}
 
-	if(leaderId < 0) {
-		error += "Leader ID cannot be negative!\n";
+	if(leaderID < 0) {
+		error += "Invalid leader ID!\n";
 	}
 
-	if(error != "") {
+	if(!error.empty()) {
 		cerr << error;
 		return;
 	}
 
-	meetings.push_back(new Meeting{ day, start, end, campus, subject, persons[leaderId] });
-	updateMeetingList();
+	meetings.push_back(new Meeting{ day, start, end, campus, subject, persons[leaderID] });
+	updateList(WidgetType::Meeting);
 }
 
 void MeetingWindow::addPerson() {
@@ -139,7 +139,7 @@ void MeetingWindow::addPerson() {
 	inBoxName.clear_value();
 	inBoxEmail.clear_value();
 
-	if(error != "") {
+	if(!error.empty()) {
 		cerr << error;
 		return;
 	}
@@ -147,56 +147,76 @@ void MeetingWindow::addPerson() {
 	persons.push_back(new Person{name, email, car});
 	choiceLeader.add(persons.back()->getName());
 
-	updatePersonList();
+	updateList(WidgetType::Person);
 }
 
-void MeetingWindow::displayMeetings() {
-	hideWidgets(widgetPerson);
-	headerText.set_label("Meetings");
-	for(auto w : widgetMeetings) w->show();
-}
+void MeetingWindow::displayWidget(WidgetType type) {
+	switch(type) {
+		case WidgetType::Meeting:{
+			hideWidgets(widgetPerson);
+			headerText.set_label("Meetings");
+			for(const auto& w : widgetMeetings){
+				w->show();
+			}
+		}
 
-void MeetingWindow::displayPersons() {
-	hideWidgets(widgetMeetings);
-	headerText.set_label("Persons");
+		case WidgetType::Person: {
+			hideWidgets(widgetMeetings);
+			headerText.set_label("Persons");
+			for(const auto& w : widgetPerson){
+				w->show();
+			}
+		}
 
-	for(auto w : widgetPerson) w->show();
+		default:
+			cerr << "Invalid WidgetType in MeetingWindow:displayWidget()!\n";
+	}
 }
 
 void MeetingWindow::hideWidgets(vector<Widget*>& widgets) {
-	for(auto w : widgets) w->hide();
+	for(auto w : widgets)
+		w->hide();
 }
 
-void MeetingWindow::clearWidgetInput(vector<Widget*>& widgets) {
-	for(auto w : widgets) w->clear_value();
-}
-
-void MeetingWindow::updateMeetingList() {
+void MeetingWindow::updateList(WidgetType type) {
 	stringstream ss;
-	for(auto& m : meetings) {
-		ss << *m << '\n';
+	switch(type) {
+		case WidgetType::Meeting: {
+			for(const auto& m : meetings) {
+				ss << *m << '\n';
+			}
+			listMeeting.put(ss.str());
+			break;
+		}
+
+		case WidgetType::Person: {
+			for(const auto& p : persons) {
+				ss << *p << '\n';
+			}
+			listPerson.put(ss.str());
+			break;
+		}
+		default:
+			cerr << "Invalid WidgetType in MeetingWindow:updateList()!\n";
 	}
-	listMeeting.put(ss.str());
 }
 
-void MeetingWindow::updatePersonList() {
-	stringstream ss;
-	for(auto& p : persons) {
-		ss << *p << '\n';
+void MeetingWindow::attachWidget(Widget& w, WidgetType type) {
+	switch(type) {
+		case WidgetType::Meeting:
+			widgetMeetings.push_back(&w);
+			break;
+
+		case WidgetType::Person:
+			widgetMeetings.push_back(&w);
+			break;
+
+		default:
+			cerr << "Invalid WidgetType in MeetingWindow:attachWidget()!\n";
 	}
-	listPerson.put(ss.str());
-}
 
-void MeetingWindow::attachMeetingWidget(Widget& mw) {
-	attach(mw);
-	widgetMeetings.push_back(&mw);
+	attach(w);
 }
-
-void MeetingWindow::attachPersonWidget(Widget& pw) {
-	attach(pw);
-	widgetPerson.push_back(&pw);
-}
-
 
 void MeetingWindow::cb_quit(Address, Address pw){
 	reference_to<MeetingWindow>(pw).hide();
