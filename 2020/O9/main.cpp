@@ -1,9 +1,10 @@
 
-#include "std_lib_facilities.h"
+#include <iostream>
 
-int main()
-{
-	cout << "Hello, World!\n";
+#include "fibonacci.h"
 
-	keep_window_open();
+int main() {
+	createFibonacci();
+
+	int x; std::cin >> x;
 }
