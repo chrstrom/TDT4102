@@ -53,7 +53,7 @@ MeetingWindow::MeetingWindow(Point xy, int w, int h, const string& title)
 	attach(layoutMenu);
 
 
-    displayMeetings();
+    displayWidget(WidgetType::Meeting);
 
 	headerText.set_font_size(headerFontSize);
 }
@@ -158,6 +158,7 @@ void MeetingWindow::displayWidget(WidgetType type) {
 			for(const auto& w : widgetMeetings){
 				w->show();
 			}
+			break;
 		}
 
 		case WidgetType::Person: {
@@ -166,6 +167,7 @@ void MeetingWindow::displayWidget(WidgetType type) {
 			for(const auto& w : widgetPerson){
 				w->show();
 			}
+			break;
 		}
 
 		default:
@@ -208,7 +210,7 @@ void MeetingWindow::attachWidget(Widget& w, WidgetType type) {
 			break;
 
 		case WidgetType::Person:
-			widgetMeetings.push_back(&w);
+			widgetPerson.push_back(&w);
 			break;
 
 		default:
@@ -231,9 +233,9 @@ void MeetingWindow::cb_new_person(Address, Address pw) {
 }
 
 void MeetingWindow::cb_meetings(Address, Address pw) {
-	reference_to<MeetingWindow>(pw).displayMeetings();
+	reference_to<MeetingWindow>(pw).displayWidget(WidgetType::Meeting);
 }
 
 void MeetingWindow::cb_persons(Address, Address pw) {
-	reference_to<MeetingWindow>(pw).displayPersons();
+	reference_to<MeetingWindow>(pw).displayWidget(WidgetType::Person);
 }
