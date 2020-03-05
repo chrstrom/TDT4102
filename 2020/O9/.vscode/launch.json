@@ -5,30 +5,50 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Build and Run Debug",
-            "type": "cppvsdbg",
+            "name": "Launch debug",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/debug/debug.exe",
+            "program": "${workspaceFolder}/Debug/program",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
+            "environment": [],
             "externalConsole": true,
-            "preLaunchTask": "Build Debug Executable",
-            "logging": {"moduleLoad": false},
-            "visualizerFile": "${env:VCINSTALLDIR}/../Common7/Packages/Debugger/Visualizers/stl.natvis"
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "logging": {
+                "moduleLoad": false
+            },
+            "preLaunchTask": "Build debug"
         },
         {
-            "name": "Build and Run Release",
-            "type": "cppvsdbg",
+            "name": "Launch release",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/release/release.exe",
+            "program": "${workspaceFolder}/Release/program",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
+            "environment": [],
             "externalConsole": true,
-            "preLaunchTask": "Build Release Executable",
-            "logging": {"moduleLoad": false}
-
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "logging": {
+                "moduleLoad": false
+            },
+            "preLaunchTask": "Build release"
         }
     ]
 }

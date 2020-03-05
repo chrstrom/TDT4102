@@ -1,78 +1,72 @@
-# Directories, include, lib,
-!if defined(DEBUG_BUILD)
-LIB_TYPE = Debug
-EXECUTABLE = debug
-BUILDDIR = debug
-!else
-LIB_TYPE = Release
-EXECUTABLE = release
-BUILDDIR = release
-!endif
+# Name of the executable
+EXECUTABLE := program
 
-TDT4102_DIR = "%ProgramFiles%/tdt4102"
-GRAPH_LIB_DIR = $(TDT4102_DIR)/Graph_lib
-FLTK_LIB_DIR = $(TDT4102_DIR)/FLTK-1.4/lib/$(LIB_TYPE)
+# Library path
+GRAPH_LIB_DIR := /usr/local
+GRAPH_LIB_INCLUDE := $(GRAPH_LIB_DIR)/include/Graph_lib
+GRAPH_LIB_LIB := $(GRAPH_LIB_DIR)/lib/Graph_lib
 
-GRAPH_LIB_INCLUDE = $(GRAPH_LIB_DIR)/include
-FLTK_INCLUDE = $(TDT4102_DIR)/FLTK-1.4
+# Output directories
+DEBUG_OUT := Debug
+RELEASE_OUT := Release
 
-GRAPH_LIB_LIBRARIES = $(GRAPH_LIB_DIR)/lib/$(LIB_TYPE)/*.lib
-FLTK_LIBRARIES = $(FLTK_LIB_DIR)/*.lib
-WIN_LIBRARIES = wsock32.lib comctl32.lib kernel32.lib user32.lib gdi32.lib \
-				winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib \
-				oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
-
-# Compiler and linker config
-CXX = clang-cl
-CXXFLAGS = /std:c++17 -TP -m64 -fdiagnostics-absolute-paths /W4 /GR \
-			/DEBUG /INCREMENTAL /nologo /EHsc \
-			-I$(GRAPH_LIB_INCLUDE) \
-			-I$(FLTK_INCLUDE)
-DEBUG = /Od /Ob0 -DWIN32 /MDd /Zi /RTC1
-RELEASE = /O2 /Ob2 -DNDEBUG -DWIN32_LEAN_AND_MEAN /MD
-MACROS = -D_WINDOWS -DNOGDI -D_CRT_SECURE_NO_WARNINGS
-DEBUGLD = /DEBUG /INCREMENTAL /Zi
-RELEASELD = /INCREMENTAL:NO
-LDFLAGS = -m64 $(GRAPH_LIB_LIBRARIES) $(FLTK_LIBRARIES) $(WIN_LIBRARIES)
+# Use clang as compiler and linker
+# Use C++17 and suppress false positive warnings
+CXX = clang++
+CXXFLAGS = -std=c++17 -Wall -Wno-overloaded-virtual -I$(GRAPH_LIB_INCLUDE)
+LDFLAGS = -L$(GRAPH_LIB_LIB) -l$(GRAPH_LIB)
 LINK = $(CXX)
 
-!if defined(DEBUG_BUILD)
-CXXFLAGS = $(CXXFLAGS) $(DEBUG)
-LDFLAGS = $(LDFLAGS) $(DEBUGLD)
-!else
-CXXFLAGS = $(CXXFLAGS) $(RELEASE)
-LDFLAGS = $(LDFLAGS) $(RELEASELD)
-!endif
+# fltk-config returns compiler and linker flags needed successfully
+# build fltk programs.
+CXXFLAGS += $(shell fltk-config --use-images --cxxflags)
+LDFLAGS += $(shell fltk-config --use-images --ldflags)
 
-!ifndef EXECUTABLE
-EXECUTABLE = program
-!endif
+SOURCES := $(wildcard *.cpp)
 
-SOURCES = *.cpp
-OBJECTS = $(BUILDDIR)/$(SOURCES:.cpp=.obj)
+ifdef DEBUG
+CXXFLAGS += -g -ggdb -Og -DDEBUG
+OUT := $(DEBUG_OUT)
+GRAPH_LIB := Graph_libd
+else
+CXXFLAGS += -O3 -DNDEBUG
+OUT := $(RELEASE_OUT)
+GRAPH_LIB := Graph_lib
+endif
 
-# Inference rules, etc.
-.SUFFIXES: .obj .cpp
+OBJECTS := $(SOURCES:%.cpp=$(OUT)/%.o)
 
-{.}.cpp{$(BUILDDIR)}.obj:
-	if not exist "$(BUILDDIR)" mkdir $(BUILDDIR)
-	$(CXX) $(CXXFLAGS) /c $< /Fo$(@D)/
+$(OUT):
+	mkdir -p $@
 
-$(BUILDDIR)/$(EXECUTABLE).exe: $(OBJECTS)
-	$(LINK) $(LDFLAGS) $(OBJECTS) /Fe$@
-	@echo ...
-	@echo Successfully built ./$@
+$(OUT)/%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(EXECUTABLE).exe: $(BUILDDIR)/$(EXECUTABLE).exe
+$(OUT)/$(EXECUTABLE): $(OUT) $(OBJECTS)
+	$(LINK) $(OBJECTS) -o $@ $(LDFLAGS)
 
-# Catch-all, but can interfere with student's own files in build directory
-#rmdir /s /q $(BUILDDIR)
-clean:
-	@echo Cleaning the output files in $(BUILDDIR)
-	-del $(BUILDDIR)\*.obj
-	-del $(BUILDDIR)\$(EXECUTABLE).exe
-	-del $(BUILDDIR)\$(EXECUTABLE).pdb
-	-del $(BUILDDIR)\$(EXECUTABLE).ilk
+.PHONY: runrelease rundebug
+runrelease: release
+	./$(RELEASE_OUT)/$(EXECUTABLE)
+rundebug: debug
+	./$(DEBUG_OUT)/$(EXECUTABLE)
 
+.PHONY: clean cleandebug cleanrelease
+clean: cleandebug cleanrelease
+cleandebug:
+	$(RM) -r $(DEBUG_OUT)
+cleanrelease:
+	$(RM) -r $(RELEASE_OUT)
+
+# Helpers to build release and debug binaries
+.PHONY: debug release
+debug:
+	DEBUG=1 $(MAKE) $(DEBUG_OUT)/$(EXECUTABLE)
+release:
+	$(MAKE) $(RELEASE_OUT)/$(EXECUTABLE)
+
+
+# Helper to clean console
+.PHONY: clearscreen
 clearscreen:
-	-cls
+	clear

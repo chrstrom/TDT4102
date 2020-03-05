@@ -1,79 +1,61 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
-    "windows": {
-        "command": "nmake",
-        "options": {
-            "env": {
-                "Path": "${env:Path};${env:VCINSTALLDIR}Tools/Llvm/bin"
-            }
-        }
-    },
     "tasks": [
-        // For incremental builds, disabled to avoid confusion
-        // when updating e.g. only header files.
+	// Kun for referanse. Det er ikke satt opp avhengiheter
+	// når kun headerfiler oppdateres.
         // {
         //     "type": "shell",
-        //     "label": "Build Debug Executable",
-        //     "windows": {
-        //         "args": [
-        //             "\"DEBUG_BUILD=true\"",
-        //             "debug.exe"
-        //         ]
-        //     },
-        //     "problemMatcher": "$msCompile",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
+        //     "label": "Build debug",
+        //     "command": "make",
+        //     "args": [
+        //         "debug"
+        //     ],
+        //     "problemMatcher": [
+        //         "$gcc"
+        //     ],
+        //     "group": "build"
         // },
         // {
         //     "type": "shell",
-        //     "label": "Build Release Executable",
-        //     "windows": {
-        //         "args": [
-        //             "release.exe"
-        //         ]
-        //     },
-        //     "problemMatcher": "$msCompile",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
+        //     "label": "Build release",
+        //     "command": "make",
+        //     "args": [
+        //         "release"
+        //     ],
+        //     "problemMatcher": [
+        //         "$gcc"
+        //     ],
+        //     "group": "build"
         // },
         {
             "type": "shell",
-            "label": "Build Debug Executable",
-            "windows": {
-                "args": [
-                    "\"DEBUG_BUILD=true\"",
-                    "clearscreen",
-                    "clean",
-                    "debug.exe"
-                ]
-            },
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "label": "Build debug",
+            "command": "make",
+            "args": [
+                "clearscreen",
+                "cleandebug",
+                "debug"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
         },
         {
             "type": "shell",
-            "label": "Build Release Executable",
-            "windows": {
-                "args": [
-                    "clearscreen",
-                    "clean",
-                    "release.exe"
-                ]
-            },
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "label": "Build release",
+            "command": "make",
+            "args": [
+                "clearscreen",
+                "cleanrelease",
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
         }
     ]
 }
