@@ -6,7 +6,7 @@
 #include "Dummy.h"
 
 int main() {
-	//createFibonacci();
+	// createFibonacci();
 	// Matrix invalid{};
 	// Matrix Id{10};
 	// Matrix norm{10, 8};
@@ -24,5 +24,6 @@ int main() {
 
 	dummyTest();
 
+	std::cin.get();
 	return 0;
 }
