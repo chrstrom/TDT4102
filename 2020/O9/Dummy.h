@@ -4,14 +4,22 @@
 
 class Dummy {
     public:
+    
+    Dummy() { num = new int{0}; }
+
     int* num;
-    Dummy() {
-        num = new int{0};
+
+    Dummy(const Dummy& d) {
+        this->num = new int{*d.num};
     }
 
-    ~Dummy() {
-        delete num;
+    Dummy operator=(const Dummy& rhs) {
+        this->num = new int{*rhs.num};
+        return *this;
     }
+
+
+    ~Dummy() { delete num; }
 };
 
 void dummyTest();

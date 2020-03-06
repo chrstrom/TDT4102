@@ -7,9 +7,12 @@ public:
     Matrix();
     explicit Matrix(int nRows);
     Matrix(int nRows, int mCols);
+    Matrix(const Matrix& rhs);
 
     friend std::ostream& operator<<(std::ostream& os, Matrix& m);
+
     double* operator[](int row) const;
+
 
     bool isValid() const {return matrix != nullptr;}
     int getRows() const {return rows;}

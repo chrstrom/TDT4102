@@ -1,6 +1,7 @@
 #include "Dummy.h"
 #include <memory>
 
+
 void dummyTest() {
     Dummy a;
     *a.num = 4;
@@ -20,7 +21,7 @@ void dummyTest() {
     std::cout << "a: " << *a.num << '\n';
     std::cout << "b: " << *b.num << '\n';
     std::cout << "c: " << *c.num << '\n';
-    
+
 }
 
 // Linje 20 er siste gang vi bruker objektet Dummy a.
