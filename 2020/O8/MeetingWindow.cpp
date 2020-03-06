@@ -24,11 +24,11 @@ MeetingWindow::MeetingWindow(Point xy, int w, int h, const string& title)
 
 	layoutMenu{ Point{x_max() - btnW, btnH * 2}, btnW, btnH, Menu::vertical, "Layout menu" }
 {
-	// Common
+
 	attach(btnQuit);
 	attach(headerText);
 
-	// New meeting
+	// Meeting widgets
 	attachWidget(inBoxDay, 		 WidgetType::Meeting);
 	attachWidget(inBoxStart, 	 WidgetType::Meeting);
 	attachWidget(inBoxEnd, 		 WidgetType::Meeting);
@@ -42,6 +42,7 @@ MeetingWindow::MeetingWindow(Point xy, int w, int h, const string& title)
 
 	attachWidget(listMeeting, WidgetType::Meeting);
 
+	// Person widgets
 	attachWidget(inBoxName, 	WidgetType::Person);
 	attachWidget(inBoxEmail, 	WidgetType::Person);
 	attachWidget(inBoxCar, 		WidgetType::Person);
@@ -53,7 +54,7 @@ MeetingWindow::MeetingWindow(Point xy, int w, int h, const string& title)
 	attach(layoutMenu);
 
 
-    displayWidget(WidgetType::Meeting);
+    displayWidget(WidgetType::Person);
 
 	headerText.set_font_size(headerFontSize);
 }
