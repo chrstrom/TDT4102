@@ -5,7 +5,7 @@
 class Car {
 public:
     Car(int seats) : freeSeats{seats} {};
-    bool hasFreeSeat(); 
+    bool hasFreeSeat() const; 
     void reserveFreeSeat();
     
 private:

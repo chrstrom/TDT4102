@@ -1,6 +1,6 @@
 #include "Person.h"
 
-bool Car::hasFreeSeat(){
+bool Car::hasFreeSeat() const {
     return freeSeats;
 }
 
@@ -8,14 +8,13 @@ void Car::reserveFreeSeat() {
     freeSeats--;
 }
 
-
 Person::Person(string name, string email, Car* p_car) : name{name}, email{email}, p_car{p_car}{};
 
 ostream& operator<<(ostream& os, const Person& p) {
     return os << p.getName()  << ", "
               << p.getEmail() << ", "
               << (p.p_car ? "Has car " : "No car ")
-              << (p.hasAvailableSeats() ? "with seats" : "with no seats") << '\n';
+              << (p.hasAvailableSeats() ? "with available seats" : "with no available seats") << '\n';
 }
 
 string Person::getName() const {
