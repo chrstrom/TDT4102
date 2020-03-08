@@ -6,23 +6,21 @@
 #include "Dummy.h"
 
 int main() {
-	// createFibonacci();
-	// Matrix invalid{};
-	// Matrix Id{10};
-	// Matrix norm{10, 8};
+	//createFibonacci();
+	Matrix Id{3};
+	Matrix Id2{Id};
+	Matrix test{2,3 };
 
-	// std::cout << invalid;
-	// std::cout << Id;
+	std::cout << Id;
+	std::cout << Id2;
 
-	// norm.set(2, 4, 5.2222);
-	// norm.set(4, 7, 7.5);
-
-	// std::cout << norm;
-
-	// char C; std::cin >> C;
-
-
-	dummyTest();
+	Matrix a = Id;
+	
+	Matrix b = a + test;
+	std::cout << b;
+	a  *= 2.3;
+	std::cout << a;
+	//dummyTest();
 
 	std::cin.get();
 	return 0;

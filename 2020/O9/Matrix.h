@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <utility>
 
 class Matrix {
 public:
@@ -10,11 +11,23 @@ public:
     Matrix(const Matrix& rhs);
 
     friend std::ostream& operator<<(std::ostream& os, Matrix& m);
-
     double* operator[](int row) const;
+    Matrix& operator=(Matrix rhs);
+
+    Matrix& operator+=(const Matrix& rhs);
+    Matrix  operator+(const Matrix& rhs) const;
+
+    Matrix& operator-=(const Matrix& rhs);  
+    Matrix  operator-(const Matrix& rhs) const;
+    Matrix  operator-();
+
+    Matrix& operator*=(const Matrix& rhs);
+    Matrix& operator*=(const double d);
+    Matrix  operator*(const Matrix& rhs) const;
+    Matrix  operator*(const double d) const;
 
 
-    bool isValid() const {return matrix != nullptr;}
+    bool isValid() const {return matrix != nullptr && rows && cols;}
     int getRows() const {return rows;}
     int getCols() const {return cols;}
 
