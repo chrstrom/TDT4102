@@ -25,7 +25,7 @@ LDFLAGS += $(shell fltk-config --use-images --ldflags)
 SOURCES := $(wildcard *.cpp)
 
 ifdef DEBUG
-CXXFLAGS += -g -ggdb -Og -DDEBUG
+CXXFLAGS += -O0 -ggdb -Og -DDEBUG
 OUT := $(DEBUG_OUT)
 GRAPH_LIB := Graph_libd
 else

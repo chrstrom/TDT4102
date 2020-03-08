@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <utility>
 
 class Dummy {
     public:
@@ -10,14 +11,13 @@ class Dummy {
     int* num;
 
     Dummy(const Dummy& d) {
-        this->num = new int{*d.num};
+        num = new int{*d.num};
     }
 
-    Dummy operator=(const Dummy& rhs) {
-        this->num = new int{*rhs.num};
+    Dummy operator=(Dummy& rhs) {
+        std::swap(num, rhs.num);
         return *this;
     }
-
 
     ~Dummy() { delete num; }
 };
