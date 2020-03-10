@@ -14,7 +14,7 @@ class Dummy {
         num = new int{*d.num};
     }
 
-    Dummy operator=(Dummy& rhs) {
+    Dummy operator=(Dummy rhs) {
         std::swap(num, rhs.num);
         return *this;
     }

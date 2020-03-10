@@ -121,39 +121,38 @@ Matrix Matrix::operator-(const Matrix& rhs) const {
     return Matrix{*this} -= rhs;
 }
 
-Matrix& Matrix::operator*=(const Matrix& rhs) {
-    if(cols != rhs.rows || rows != rhs.cols) {
-        this->~Matrix();
-        return *this;
-    }
+Matrix Matrix::operator*(const Matrix & rhs) const {
+	if (cols!= rhs.rows) 
+		return Matrix{};
+	
 
-	Matrix m{rows, rhs.cols};
-	for (int row = 0; row < rows; row++) {
-		for (int col = 0; col < rhs.cols; col++) {
-            m[row][col] = 0.0;
+	Matrix temp{rows, rhs.cols};
+	for (int row = 0; row < rows; ++row) {
+		for (int col = 0; col < rhs.cols; ++col) {
+			temp[row][col] = 0.0;
 			for (int i = 0; i < cols; ++i) {
-				m[row][col] += matrix[row][i] * rhs.matrix[i][col];
+				temp[row][col] += matrix[row][i] * rhs.matrix[i][col];
 			}
 		}
 	}
-	return m;
-}
-Matrix& Matrix::operator*=(const double d) {
-    for (int row = 0; row < rows; row++)
-		for (int col = 0; col < cols; col++)
-            matrix[row][col] *= d;
+	return temp;
 
-    return *this;
 }
-Matrix Matrix::operator*(const Matrix& rhs) const {
-    if(cols != rhs.rows || rows != rhs.cols) {
-        return Matrix{};
-    }
 
-    return Matrix{*this} *= rhs;
+Matrix & Matrix::operator*=(const Matrix & rhs) {
+	return *this = *this * rhs;
 }
-Matrix Matrix::operator*(const double d) const {
-    return Matrix{*this} *= d;
+
+Matrix Matrix::operator*(double rhs) const {
+	return Matrix{ *this } *= rhs;
+}
+
+Matrix& Matrix::operator*=(double rhs) {
+	for (int i = 0; i < rows; i++) 
+		for (int j = 0; j < cols; j++) 
+			matrix[i][j] *= rhs;
+
+	return *this;
 }
 
 
@@ -164,4 +163,30 @@ double Matrix::get(int row, int col) const {
 
 void Matrix::set(int row, int col, double value) {
     matrix[row][col] = value;
+}
+
+void testMatrix() {
+    Matrix m1{};
+    Matrix m2{3};
+    Matrix m3{3};
+    Matrix m4{2, 3};
+    Matrix m5{3, 2};
+    
+    m3.set(1, 2, 2.5);
+    m3.set(0, 2, 2.5);
+    m3.set(0, 1, 2.5);
+
+    m4.set(1, 1, 2.0);
+    
+    m5.set(1, 1, 2.0);
+
+    std::cout << m1 << '\n';
+    std::cout << m2 << '\n';
+    std::cout << m3 << '\n';
+    std::cout << m4 << '\n';
+    std::cout << m5 << '\n';
+
+    m4 *= m5;
+
+    std::cout << m4 << '\n';
 }

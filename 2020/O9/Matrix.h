@@ -21,10 +21,10 @@ public:
     Matrix  operator-(const Matrix& rhs) const;
     Matrix  operator-();
 
-    Matrix& operator*=(const Matrix& rhs);
-    Matrix& operator*=(const double d);
     Matrix  operator*(const Matrix& rhs) const;
-    Matrix  operator*(const double d) const;
+    Matrix& operator*=(const Matrix& rhs);
+    Matrix  operator*(double rhs) const;
+    Matrix& operator*=(double rhs);
 
 
     bool isValid() const {return matrix != nullptr && rows && cols;}
@@ -41,3 +41,5 @@ private:
     double** matrix;
 };
 
+
+void testMatrix();
