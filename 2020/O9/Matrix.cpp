@@ -148,9 +148,9 @@ Matrix Matrix::operator*(double rhs) const {
 }
 
 Matrix& Matrix::operator*=(double rhs) {
-	for (int i = 0; i < rows; i++) 
-		for (int j = 0; j < cols; j++) 
-			matrix[i][j] *= rhs;
+	for (int row = 0; row < rows; row++) 
+		for (int col = 0; col < cols; col++) 
+			matrix[row][col] *= rhs;
 
 	return *this;
 }
@@ -177,7 +177,6 @@ void testMatrix() {
     m3.set(0, 1, 2.5);
 
     m4.set(1, 1, 2.0);
-    
     m5.set(1, 1, 2.0);
 
     std::cout << m1 << '\n';
