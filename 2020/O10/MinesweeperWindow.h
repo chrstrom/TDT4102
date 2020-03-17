@@ -20,7 +20,9 @@ public:
 private:
 	const int width;
 	const int height;
-	const int mines;
+
+	int tilesLeft;
+	bool gameEnded = false;
 
 	vector<Tile*> tiles;
 	vector<Point> adjacentPoints(Point xy) const;
@@ -35,5 +37,7 @@ private:
 	void openTile(Point xy);
 	void flagTile(Point xy);
 
+	void endGame();
+	
 	static void cb_click(Address, Address pw);
 };

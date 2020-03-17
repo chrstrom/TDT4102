@@ -1,7 +1,8 @@
 #include "MinesweeperWindow.h"
 
 MinesweeperWindow::MinesweeperWindow(Point xy, int width, int height, int mines, const string& title) :
-	Graph_lib::Window{xy, width * cellSize, height*cellSize, title}, width{width}, height{height}, mines{mines}
+	Graph_lib::Window{xy, width * cellSize, height*cellSize, title},
+	width{width}, height{height}, tilesLeft{width * height - mines}
 {
 	for(int h = 0; h < height; ++h) {
 		for(int w = 0; w < width; ++w) {
@@ -11,16 +12,13 @@ MinesweeperWindow::MinesweeperWindow(Point xy, int width, int height, int mines,
 	}
 
 	//Add mines at random locations
-	for(int mine = 0; mine < mines; mine++) {
+	int mine = 0;
+	while(mine < mines) {
 		int idx = rand() % tiles.size();
-		
-		if(tiles[idx]->isMine()) {
-			mine--;
-		} 
-		else {
+		if(!tiles[idx]->isMine()) {
+			mine++;
 			tiles[idx]->setMine();
-		}
-		
+		} 
 	}
 
 	// Remove scalability of window
@@ -61,10 +59,21 @@ void MinesweeperWindow::openTile(Point xy) {
 	if(t.getState() != Cell::closed)
 		return;
 	
-	if(t.isMine())
+	if(t.isMine()) {
+		gameEnded = true;
+		endGame();
 		return;
+	}
 
 	t.open();
+
+	if(!gameEnded) 
+		tilesLeft--;
+
+	if(tilesLeft == 0) {
+		gameEnded = true;
+		endGame();
+	}
 
 	vector<Point> adj = adjacentPoints(xy);
 	int adjMines = countMines(adj);
@@ -77,7 +86,6 @@ void MinesweeperWindow::openTile(Point xy) {
 	// Recursively open all connected tiles with 0 adjacent mines
 	for(Point p : adj) 
 		openTile(p);
-
 }
 
 void MinesweeperWindow::flagTile(Point xy) {
@@ -105,4 +113,19 @@ void MinesweeperWindow::cb_click(Address, Address pw) {
 	}
 
 	win.flush();
+}
+
+
+void MinesweeperWindow::endGame() {
+	static Text feedback{Point{x_max()/5, y_max()/4}, tilesLeft ? "You lost!" : "You win!"};
+
+	feedback.set_font_size(40);
+	feedback.set_color(Color::black);
+	attach(feedback);
+
+	for(Tile* t : tiles) {
+		if(t->getState() == Cell::flagged) 
+			t->flag();	// Reset flags set by user because they are independent from ending flags.
+		t->isMine() ?  (tilesLeft ? t->open() : t->flag()) : openTile(t->loc);
+	}
 }
