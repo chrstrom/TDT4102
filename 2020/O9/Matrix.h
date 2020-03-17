@@ -11,7 +11,7 @@ public:
     Matrix(const Matrix& rhs);
 
     friend std::ostream& operator<<(std::ostream& os, Matrix& m);
-    double* operator[](int row) const;
+    double* operator[](int idx) const;
     Matrix& operator=(Matrix rhs);
 
     Matrix& operator+=(const Matrix& rhs);
