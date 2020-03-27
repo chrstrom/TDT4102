@@ -8,7 +8,6 @@ Node* LinkedList::insert(Node *pos, const std::string& value) {
         exit(1);
     }
 
-    
     if(pos == begin()) {
         head = std::make_unique<Node>(value, std::move(head));
         pos->prev = begin();
@@ -31,8 +30,6 @@ Node* LinkedList::find(const std::string& value) {
     return end();
 }
 
-// The remove function takes a pointer to a node, and removes the node from the list. The
-// function returns a pointer to the element after the removed node.
 Node* LinkedList::remove(Node* pos) {
     if(pos == nullptr || pos == end())
         exit(1);
@@ -58,8 +55,7 @@ void LinkedList::remove(const std::string& value) {
         remove(node);
 }
 
-// write a string representation of the list to the ostream
-std::ostream & operator<<(std::ostream & os, const LinkedList& list) {
+std::ostream& operator<<(std::ostream & os, const LinkedList& list) {
     os << "{ ";
     for(Node* n = list.begin(); n != list.end(); n = n->getNext()) {
         os << *n << " ";
