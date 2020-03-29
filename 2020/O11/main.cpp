@@ -1,8 +1,10 @@
 
 #include "iterators.h"
 #include "orderedList.h"
+#include <random>
 
 int main() {
+	srand(static_cast<unsigned int>(time(nullptr)));
 	//print_using_iterator();
 
 	// std::vector<std::string> vec{"Lorem", "Ipsum", "Dolor", "Lorem"};

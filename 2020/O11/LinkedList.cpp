@@ -9,7 +9,7 @@ Node* LinkedList::insert(Node *pos, const std::string& value) {
     }
 
     if(pos == begin()) {
-        head = std::make_unique<Node>(value, std::move(head));
+        head = std::make_unique<Node>(value, std::move(head), nullptr);
         pos->prev = begin();
     }
     else {
@@ -54,7 +54,9 @@ void LinkedList::remove(const std::string& value) {
     if(node != end())
         remove(node);
 }
-
+std::ostream& operator<<(std::ostream & os, const Node & node) {
+    return os << node.value;
+}
 std::ostream& operator<<(std::ostream & os, const LinkedList& list) {
     os << "{ ";
     for(Node* n = list.begin(); n != list.end(); n = n->getNext()) {
